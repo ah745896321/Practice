@@ -1,0 +1,6 @@
+Step1.根據使用者情境描述，判斷操作功能
+Step2.分析使用量，判斷須關注的Quality
+Step3.根據Quality需求，判斷可能的架構、元件
+Step4.列舉各項元件的優劣、進行選擇
+
+https://neetcode.io/practice/practice/systemDesign
