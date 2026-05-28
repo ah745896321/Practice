@@ -1,0 +1,132 @@
+sb:
+Accepted
+1157 / 1157 testcases passed
+ah745896321
+ah745896321
+submitted at May 28, 2026 18:09
+
+Analysis
+
+Solution
+Runtime
+5
+ms
+Beats
+90.17%
+Memory
+46.38
+MB
+Beats
+89.13%
+string+=
+Accepted
+1157 / 1157 testcases passed
+ah745896321
+ah745896321
+submitted at May 28, 2026 18:00
+
+Analysis
+
+Solution
+Runtime
+18
+ms
+Beats
+25.74%
+Memory
+56.45
+MB
+Beats
+27.66%
+
+
+📘 string += vs StringBuilder 完整整理筆記
+🧠 1. 核心觀念總結
+✔ string 是 immutable（不可變）
+每次修改都會產生新物件
+舊字串不會被改動
+s = s + "a"
+→ new string("...a")
+✔ StringBuilder 是 mutable（可變）
+內部使用 char[] buffer
+直接在陣列上修改
+Append('a')
+→ buffer[length] = 'a'
+⚙️ 2. string += 的實作原理
+每次執行：
+result += c
+
+等價於：
+
+result = string.Concat(result, c)
+🔥 內部流程：
+計算新長度
+配置新 string
+copy 舊內容
+加上新字元
+回傳新 string
+📊 時間複雜度
+單次：O(n)
+loop 累積：O(n²)
+❗慢的原因
+
+每次 append 都會「整段複製」
+
+⚙️ 3. StringBuilder 的實作原理
+✔ 內部結構
+char[] buffer
+int length
+✔ Append 行為
+buffer[length] = char
+length++
+
+👉 O(1)
+
+✔ 容量不足時
+建立更大 buffer（通常 *2）
+copy 舊資料
+繼續寫入
+📊 時間複雜度
+單次 append：O(1)
+整體（攤還）：O(n)
+⚖️ 4. 關鍵差異整理
+項目	string +=	StringBuilder
+是否可變	❌ 否	✔ 是
+是否產生新物件	✔ 每次	❌ 幾乎不用
+是否 copy 舊資料	✔ 每次	❌ 只在擴容
+append 成本	O(n)	O(1)
+loop 總成本	O(n²)	O(n)
+🧠 5. 為什麼 string 要設計成 immutable？
+✔ 原因：
+1️⃣ 避免共享修改副作用
+a = "hello"
+b = a
+
+如果可變 → b 也被改壞
+
+2️⃣ thread-safe（無需 lock）
+3️⃣ 可做 string pooling（interning）
+4️⃣ dictionary / hash 安全
+⚠️ 6. 為什麼 int 不會有問題？
+✔ int 是 value type
+a += 1
+
+👉 只是改數值，不涉及 copy string
+
+差異：
+型別	行為
+int	直接修改值
+string	建立新物件
+🧠 7. 一句話總結
+
+string += 因為 immutable，每次都會建立新字串並複製內容，導致 O(n²)；StringBuilder 使用可變 char buffer，在同一塊記憶體中追加，因此可以達到 O(n)。
+
+🚀 8. 面試快速回答版本
+
+如果面試官問：
+
+❓為什麼 string += 很慢？
+
+👉 可以這樣答：
+
+因為 string 是 immutable，每次 += 都會建立新字串並複製舊內容，所以在迴圈中會累積成 O(n²)，而 StringBuilder 是用 char buffer 做 append，因此是 O(n)。
