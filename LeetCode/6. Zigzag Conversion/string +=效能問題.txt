@@ -18,6 +18,8 @@ Memory
 MB
 Beats
 89.13%
+
+
 string+=
 Accepted
 1157 / 1157 testcases passed
@@ -39,6 +41,8 @@ MB
 Beats
 27.66%
 
+
+sb與string+= AI解析
 
 📘 string += vs StringBuilder 完整整理筆記
 🧠 1. 核心觀念總結

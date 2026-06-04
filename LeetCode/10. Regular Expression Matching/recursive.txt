@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isMatch(String text, String pattern) {
+        if (pattern.isEmpty()) return text.isEmpty();
+        boolean first_match =
+            (!text.isEmpty() &&
+                (pattern.charAt(0) == text.charAt(0) ||
+                    pattern.charAt(0) == '.'));
+
+        if (pattern.length() >= 2 && pattern.charAt(1) == '*') {
+            return (
+                isMatch(text, pattern.substring(2)) ||
+                (first_match && isMatch(text.substring(1), pattern))
+            );
+        } else {
+            return (
+                first_match && isMatch(text.substring(1), pattern.substring(1))
+            );
+        }
+    }
+}
+第一個字元是否相符?
+第二個字元是否為*
+如果這個* 次數為0 是否符合 (isMatch(text, pattern.substring(2)))
+如果一次是否符合 -> 將待匹配字串去頭，遞迴檢測
+如果兩次是否符合 -> 在一次符合的基礎上，檢查二次是否符合  ##Match後，剩餘文字影響後續判斷 需逐個篩查
+
+因為會重複計算相當多次同樣內容
+故DP效率快速很多

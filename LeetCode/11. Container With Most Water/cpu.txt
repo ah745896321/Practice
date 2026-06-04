@@ -1,0 +1,57 @@
+此題思路
+
+假設A、B 面積為 |A-B|*Min(Heigth[A],Heigth[B])
+且Heigth[A]>Heigth[B]
+
+這時如果
+1.將A點向內移動(Width會縮小)
+面積一定會縮小(因Heigth[A]>Heigth[B]則Min(Heigth[A],Heigth[B]) ==Heigth[B])
+2.將B點向內移動(Width會縮小)
+面積不一定縮小(因Heigth[A]>Heigth[B]則Min(Heigth[A],Heigth[B]) ==Heigth[B])
+
+所以可基於最左與最右節點的面積 開始排除不可能為最大值得選項
+
+此時我嘗試批量排除小於Heigth[B]的高度
+省去了多次計算面積的時間
+但其餘花費的時間反而更大
+
+claude code cpu比較
+操作			Latency			說明
++ / - / 比較		1 cycle			最便宜Math.Min / Math.Max1 cycle編譯後就是一個 cmp + cmov
+陣列存取 height[i]	4 cycle（L1 cache 命中）需要記憶體讀取
+branch（條件跳躍）	1~15 cycle		預測失敗時很貴loop overhead1~2 cycle每次迴圈的額外成本
+
+public class Solution {
+   public int MaxArea(int[] height)
+{
+    int len = height.Length;
+    int left = 0;
+    int right = len-1;
+    int temp = 0;
+    int area = 0;
+    int Max_area=Math.Min(height[left], height[right]) * (right - left);
+    while(left<right)
+    {   
+        if (height[left] > height[right])
+        {
+            temp = right;
+            do { temp--; }
+            while (temp>left&&height[right] > height[temp]);
+            right = temp;
+            area= Math.Min(height[left], height[right]) * (right - left);
+            Max_area=   Math.Max(Max_area,area);
+        }
+        else
+        {
+            temp = left;
+            do { temp++; }
+            while (temp<right&&height[left] > height[temp]);
+                
+            left = temp;
+            area= Math.Min(height[left], height[right]) * (right - left);
+            Max_area=   Math.Max(Max_area,area);
+        }
+    }
+    return Max_area;
+}
+}

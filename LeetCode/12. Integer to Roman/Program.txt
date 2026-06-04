@@ -1,0 +1,35 @@
+new string('D',  5)
+重複字串的基本寫法  快速 高效
+public class Solution
+{
+    public string IntToRoman(int num)
+    {
+
+        StringBuilder sb = new StringBuilder();
+        int mod = num / 1000;
+        sb.Append(new string('M', mod));
+        mod = num % 1000 / 100;
+        if (mod == 4)
+            sb.Append("CD");
+        else if (mod == 9)
+            sb.Append("CM");
+        else
+        { sb.Append(new string('D',  mod / 5) + new string('C', mod % 5)); }
+        mod = num % 100 / 10;
+        if (mod == 4)
+            sb.Append("XL");
+        else if (mod == 9)
+            sb.Append("XC");
+        else
+        { sb.Append(new string('L', mod / 5) + new string('X', mod % 5)); }
+        mod = num % 10;
+        if (mod == 4)
+            sb.Append("IV");
+        else if (mod == 9)
+            sb.Append("IX");
+        else
+        { sb.Append(new string('V', mod / 5) + new string('I', mod % 5)); }
+        return sb.ToString();
+
+    }
+}

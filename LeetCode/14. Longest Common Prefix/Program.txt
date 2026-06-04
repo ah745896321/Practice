@@ -1,0 +1,17 @@
+public class Solution {
+    public string LongestCommonPrefix(string[] strs) {
+        int x = 0;
+        StringBuilder sb = new StringBuilder();
+        if(strs[0].Length==0) return "";
+        if(strs.Length==1)return strs[0];
+        while(true)
+        {
+            
+            for(int i =1;i<strs.Length;i++)
+                if(strs[0].Length<=x||strs[i].Length<=x||strs[0][x]!=strs[i][x])
+                    return sb.ToString();
+            sb.Append(strs[0][x]);
+            x++;
+         }   
+    }
+}

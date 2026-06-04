@@ -1,0 +1,18 @@
+第一次:
+按照規則處理文字
+記錄正負號
+判斷數字範圍 轉成BigInteger
+Beats 10.81%
+第二次:
+根據GPT建議
+改為數字計算(逐字元 *10 +s[i])
+但仍用BigInteger計算
+好處:不擔心溢位
+壞處:BigInteger計算較花時間
+Beats 14.41%
+第三次:
+參考其他人提交的Leetcode範例
+不使用BigInteger
+在數值*10+s[i]之前 進行是否溢位的判斷
+#result==int.MaxValue/10 及result>int.MaxValue/10需分開判斷
+0ms
