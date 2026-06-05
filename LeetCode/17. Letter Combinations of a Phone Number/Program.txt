@@ -1,0 +1,69 @@
+Switch Case部分可以用Index 方式替代
+省略數個判斷(Switch Case)
+Dictionary<string, string> dict = new Dictionary<string, string> {
+            { "2", "abc" },
+            { "3", "def" },
+            { "4", "ghi" },
+            { "5", "jkl" },
+            { "6", "mno" },
+            { "7", "qprs" },
+            { "8", "tuv" },
+            { "9", "wxyz" }
+        };
+
+public class Solution 
+{
+
+    //Dictionary of all possible characters for every digit
+    //Strings can be used inside instead of Lists but that's a formality
+    public Dictionary<char, List<char>> map = new Dictionary<char, List<char>>()
+    {
+        {'2', new List<char>(){ 'a', 'b', 'c'}},
+        {'3', new List<char>(){ 'd', 'e', 'f'}},
+        {'4', new List<char>(){ 'g', 'h', 'i'}},
+        {'5', new List<char>(){ 'j', 'k', 'l'}},
+        {'6', new List<char>(){ 'm', 'n', 'o'}},
+        {'7', new List<char>(){ 'p', 'q', 'r', 's'}},
+        {'8', new List<char>(){ 't', 'u', 'v'}},
+        {'9', new List<char>(){ 'w', 'x', 'y', 'z'}}       
+    };
+可用DFS  寫起來比較乾淨
+    public List<string> output = new List<string>(){};
+
+
+    public IList<string> LetterCombinations(string digits) 
+    {
+        //Check if the string is not empty
+        if(String.IsNullOrEmpty(digits)){ return output; }
+
+        //start with first digit
+        dfs(digits, 0, "");
+
+        return output;
+    }
+
+    //DFS method to go through all digits recursively in every combination
+    public void dfs(string digits, int index, string word)
+    {
+        //Base condition if 1 digit = 1 character then length of word at the end has to be the same as input digits length
+        if(index == digits.Length)
+        {
+            output.Add(word);
+            return;
+        }
+
+        //Going through all letters a digit could be and passing down an appended string
+        foreach(char c in map[digits[index]])
+        {
+            dfs(digits, index + 1, word + c);
+        }
+    }
+}
+
+foreach abc
+  recursive dfs
+
+      a         b            c 
+  d   e   f     d e f        d e f
+g h i
+~
