@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 public class Solution
 {
@@ -37,3 +37,28 @@ static void Main() {
         Console.WriteLine(a.GenerateParenthesis(4));
     }
 }
+
+思路:左括號數量與右括號數量相同
+且左括號數量至少等於右括號數量
+Backtracking
+
+Catalan Number（卡特蘭數）：
+數量-> 2n!/(n+1)!/n! -> n=4  8!/5!/4!-> 14
+
+核心想法
+n=4，共 4 對括號。
+第一個 ( 一定在最左邊，問題是：它對應的 ) 在哪裡？
+( ___ ) ___
+假設它的 ) 在位置 k，則：
+
+___ 內部有 i 對括號
+) 右邊有 n-1-i 對括號
+
+
+逐項拆解 C4
+C4=C0C3+C1C2+C2C1+C3C0 -> 1*5+1*2+2*1+5*1=14
+項內部右邊意思C0×C3C_0 \times C_3
+C0​×C3​0 對3 對() + 右邊3對的全部組合C1×C2C_1 \times C_2
+C1​×C2​1 對2 對(()) + 右邊2對的全部組合C2×C1C_2 \times C_1
+C2​×C1​2 對1 對((()))或(()()) + 右邊1對C3×C0C_3 \times C_0
+C3​×C0​3 對0 對內部3對的全部組合，右邊空白
